@@ -1,0 +1,48 @@
+每个.cpp程序包含若干个函数(function),其中一个必须为[main].
+函数定义：返回类型、函数名、(形参列表)和函数体.->其中main返回类型 必须 为[int].
+
+MinGW g++：
+编译：
+    $ CC prog1.cc ($系统提示符)
+    g++ --std=c++11 ch01.cpp -o main
+    -> g++ -o prog1 prog1.cpp (-o prog1编译器参数)
+运行：
+    ./程序名
+查看运行状态：echo %ERRORLEVEL%
+多文件编译：
+    g++ ch2.cpp Sales_item.cc -o main
+
+IO标准库(提供IO机制)
+#include <iostream> //IO头文件
+    iostream是标准库,其中包含的类型istream和ostream表示输入输出流.
+    cin是istream类型的对象(标准输入)；cout是ostream类型的对象(标准输出)
+        ostream还有cerr和clog对象
+表达式：运算对象 + 运算符，得到一个计算结果.
+输入输出运算符：
+    std::cout << "hello" << std::endl; -> 输出运算符 << 左侧是ostream对象,右侧是输出结果,将右侧内容写入左侧ostream对象(cout)中.
+    std::cin >> v1  
+    << 和 >> 返回的结果都是左操作数,指向输出流和输入流本身.
+std::命名空间：cout cin等名字是在名为std的命名空间内(标准库). 需要显式说明, 使用作用域运算符::调用.
+
+操纵符：endl
+    结束当前行,并将设备关联的缓冲区（buffer）中的内容刷到设备中.
+头文件(.h)：类的类型一般存储在头文件中,标准库的头文件使用<>,非标准库的头文件使用""。
+
+while 语句
+    while (condition) { statement; }
+for 语句
+    for (initial-statement; condition; expression ) { statement; }
+std::cin >> value ：检测流的状态 -> 遇到eof或者错误时停止(检测表达式结果实际上就是检测cin)
+    文件结束符：Ctrl+Z+Enter
+类 & 数据结构
+类类型：
+成员函数(类方法)：使用.调用.
+调用运算符()
+
+注释
+单行注释：//开头，换行符结束.可包含任意文本
+界定符对注释(多行注释)：/*……*/.编译器将/*和*/之间的内容都作为注释内容忽略。不能嵌套。
+    跨越多行时, 每一行都以 * 开头.
+
+文件重定向
+./main prog1.exe <infile >outfile

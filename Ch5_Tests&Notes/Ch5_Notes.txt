@@ -1,0 +1,35 @@
+Ch5 语句
+
+5.1 简单语句
+    表达式语句：表达式末尾加上分号，会丢弃掉求值结果
+    空语句：只含一个单独的分号
+    复合语句（块）：用花括号{}包裹起来的语句和声明的序列。一个块就是一个作用域。
+
+5.2 语句作用域
+    定义在控制结构中的变量只在相应语句内部可见。
+
+5.3 条件语句
+    悬垂else：在嵌套的if else语句中，if比else多时如何处理的问题。
+    C++使用的方法是else匹配最近没有配对的if。
+    switch-case标签必须为整型常量表达式
+
+5.4 迭代语句
+    while：不确定到底要迭代多少次，使用 while循环比较合适，例如连续读取输入。
+    for：for(init-statement; condition; expression)
+        for循环可以省略掉其中的的任何一个，甚至全部。
+    范围for： for (declaration: expression) statement。
+        其中expression可以为{/*...*/}/array/vector/string等拥有能返回迭代器的begin和end成员
+        需要对遍历过程中的元素执行操作时，必须使用&引用。
+
+5.5 跳转语句
+    break：break语句负责终止离它最近的while、do while、for或者switch语句，并从这些语句之后的第一条语句开始继续执行。
+    continue：终止最近的循环中的当前迭代，并立即开始下一次迭代。只能在while、do while、for循环的内部。
+    goto label: 带标签语句前面带有一个标识符以及：。可以直接跳转到该条语句。
+    
+5.6 try语句块和异常处理
+    throw表达式：throw表达式表示遇到了无法处理的问题。throw “引发” (raise)了异常。
+        throw (expression);
+    try语句块：以 try关键词开始，以一个或多个 catch语句结束。try语句块中的代码抛出的异常通常会被某个catch捕获并处理。
+        try {/*...*/} catch (decl1) {/*...*/} catch (decl2) {/*...*/}
+    异常类：用于在 throw表达式和相关的 catch子句之间传递异常的具体信息。
+        exception.stdexcept.new.type_info

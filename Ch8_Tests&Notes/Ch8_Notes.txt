@@ -1,0 +1,33 @@
+Ch8 IO库
+
+8.1 IO类
+    标准库定义的IO类型(w)：
+        iostream：标准流读写数据：istream, ostream
+        fstream：文件读写数据：ifstream, ofstream
+        sstream：string读写数据：istringstream, ostringstream
+    IO类型之间的关系：继承
+    IO对象无拷贝或赋值->形参和返回类型不能是流类型
+        通常使用引用的方式传递和返回流，且不能是const的(读写会改变其状态)
+    条件状态：P279-280
+        使用流当作条件，判断是否处于良好状态。
+    查询流状态：iostate：4个constexpr值表示特定位模式
+    输出缓冲：每个输出流的文本串可能立即打印出来，也可能被操作系统保存在缓冲区内，合并为系统级写操作随后再打印。
+    缓冲刷新：程序结束return/缓冲区满/操作符强制/……etc
+    刷新缓冲区，可以使用如下IO操纵符：
+        endl：输出一个换行符并刷新缓冲区。
+        flush：刷新流，不添加任何字符。
+        ends：在缓冲区插入空字符null，然后刷新。
+        unitbuf：告诉流接下来每次操作之后都要进行一次flush操作。
+        nounitbuf：回到正常的缓冲方式。
+    
+8.2 文件输入输出
+    头文件fstream：P283
+    读/写：定义一个文件流对象并将其与文件关联(open成员函数)
+    用fstream代替iostream&。对调用open进行检测(类似while(cin))，close命令。
+    文件流关联模式(in out app ate trunc binary)
+        未指定时以默认文件模式打开
+    ofstream默认会丢弃文件内容：显式地指定app模式
+
+8.3 string流
+    头文件sstream：P287
+    一部分处理整行内容而一部分处理单个单词时，可使用istringstream。

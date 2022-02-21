@@ -1,0 +1,271 @@
+6.1   实参和形参的区别的什么？
+解：
+      实参是形参的初始值。在函数被调用时传递过来进行实际调用。
+      
+6.2   请指出下列函数哪个有错误，为什么？应该如何修改这些错误呢？
+      (a) int f() {
+              string s;
+              // ...
+              return s;
+          }
+      (b) f2(int i) { /* ... */ }
+      (c) int calc(int v1, int v1) { /* ... */ }
+      (d) double square (double x)  return x * x; 
+解：
+      (a) 返回类型int和实际返回的string不符；应改为string f()
+      (b) 无返回类型；应改为void f2(int i)
+      (c) 两形参名不能相同；应改为int v1, int v2
+      (d) 函数体需要大括号；应改为{ return x * x }
+
+6.3   Ex6.3
+6.4   Ex6.4
+6.5   Ex6.5
+
+6.6   说明形参、局部变量以及局部静态变量的区别。编写一个函数，同时达到这三种形式。
+解：
+      形参定义在函数形参列表里面；局部变量定义在代码块里面；
+      局部静态变量在程序的执行路径第一次经过时初始化，直到程序终止时才被销毁。
+      
+      int f(int n)       // 形参
+      {
+          static int ctr = 0;    // 局部静态变量
+          ctr += n;
+          return ctr;
+      }
+      int main()
+      {
+          for (int i = 0; i != 10; ++i)  // 局部变量
+          cout << f(i) << endl;
+          return 0;
+      }
+
+6.7   Ex6.7
+6.8   Ex6.8
+6.9   Ex6.9
+6.10  Ex6.10
+6.11  Ex6.11
+6.12  Ex6.12
+
+6.13  假设T是某种类型的名字，说明以下两个函数声明的区别： 一个是void f(T), 另一个是void f(&T)。
+解：
+      (a) void f(T)是传值，函数在传入T后对T进行的操作不会影响到T本身。
+      (b) void f(&T)是传引用参数，T是对实参的引用，在函数内对T进行改变也会对实参进行改变。
+
+6.14  举一个形参应该是引用类型的例子，再举一个形参不能是引用类型的例子。
+解：
+      (a) swap函数交换两值使用引用类型，因为需要改变实参的值；
+      (b) 运行过程中如果要改变vector容器本身时，又用到了begin,end等成员，则不能使用引用。因为可能改变了实参本身。
+
+6.15  说明find_char函数中的三个形参为什么是现在的类型，特别说明为什么s是常量引用而occurs是普通引用？
+      为什么s和occurs是引用类型而c不是？ 如果令s是普通引用会发生什么情况？ 如果令occurs是常量引用会发生什么情况？
+解：
+      首先使用引用类型是因为string类型可能很长，为了提高效率应该尽量避免拷贝而是使用引用。s是const是因为函数只需要找值而不需要改变值。
+      occurs需要一直改变并且最终输出到函数外部，因此不能使用const，且需要使用引用。
+      char c不是引用类型是因为c作为单个字符，只使用一次无需改变值，因此可以不用引用。
+      s是普通引用在这个函数内没有问题，但是有可能修改到常量字符串的风险。
+      occurs是常量引用会导致无法计数，因为常量引用无法改值。
+      
+6.16  下面的这个函数虽然合法，但是不算特别有用。指出它的局限性并设法改善。
+      bool is_empty(string& s) { return s.empty(); }
+解：
+      可以用非常量初始化const对象，但是如果函数形参设成普通string，那就不能把常量的string传入函数。
+      可以将形参改为const引用：bool is_empty(const string& s) { return s.empty(); }
+
+6.17  Ex6.17
+6.18  Ex6.18
+
+6.19  假定有如下声明，判断哪个调用合法、哪个调用不合法。对于不合法的函数调用，说明原因。
+      double calc(double);
+      int count(const string &, char);
+      int sum(vector<int>::iterator, vector<int>::iterator, int);
+      vector<int> vec(10);
+      (a) calc(23.4, 55.1);
+      (b) count("abcda",'a');
+      (c) calc(66);
+      (d) sum(vec.begin(), vec.end(), 3.8);
+解：
+      (a) calc只有一个参数，传入了2个；
+      (b) 合法；
+      (c) 合法；
+      (d) 合法
+
+6.20  引用形参什么时候应该是常量引用？如果形参应该是常量引用，而我们将其设为了普通引用，会发生什么情况？
+解：
+      在除了需要改变此引用变量的值的时候，其余时候应该尽量设置为常量引用。如果设为普通引用，常量实参不能传入函数对于普通引用形参进行初始化。
+
+6.21  Ex6.21
+6.22  Ex6.22
+6.23  Ex6.23
+
+6.24  描述下面这个函数的行为。如果代码中存在问题，请指出并改正。
+      void print(const int ia[10])
+      {
+	      for (size_t i = 0; i != 10; ++i)
+		      cout << ia[i] << endl;
+      }
+解：
+      形参接受的是指向数组首位的指针。因此如果数组的大小小于10，则可能访问到未定义的数值。
+      应该把传递形参改为 const int (&ia)[10]
+
+6.25  Ex6.25
+6.26  Ex6.26
+6.27  Ex6.27
+
+6.28  在error_msg函数的第二个版本中包含ErrCode类型的参数，其中循环内的elem是什么类型？
+解：  
+      const string &
+
+6.29  在范围for循环中使用initializer_list对象时，应该将循环控制变量声明成引用类型吗？为什么？
+解：  
+      最好设置成为const引用类型。首先initializer_list对象不允许修改，应该设置为常量；其次引用比拷贝效率更高。
+
+6.30  Ex6.30
+
+6.31  什么情况下返回的引用无效？什么情况下返回常量的引用无效？
+解：
+      局部变量返回的引用无效，调用函数之前不存在；返回左值的常量引用无效。
+
+6.32  下面的函数合法吗？如果合法，说明其功能；如果不合法，修改其中的错误并解释原因。
+      int &get(int *array, int index) { return array[index]; }
+      int main()
+      {
+            int ia[10];
+            for (int i = 0; i != 10; ++i)
+            get(ia, i) = i;
+      }
+解：
+      合法，该函数get()返回ia[i]，调用返回引用的函数得到左值。
+
+6.33  Ex6.33
+
+6.34  如果factorial函数的停止条件如下所示，将发生什么？
+      if (val != 0)
+解：
+      val < 0时，递归进入死循环不会结束。
+
+6.35  在调用factorial函数时，为什么我们传入的值是val-1而非val--？
+解：
+      如果传入val--，每次调用函数时，都会从初始值开始调用，递归进入死循环。
+
+6.36  编写一个函数声明，使其返回数组的引用并且该数组包含10个string对象。不用使用尾置返回类型、decltype或者类型别名。
+解：
+      string (&f())[10];
+
+6.37  为上一题的函数再写三个声明，一个使用类型别名，另一个使用尾置返回类型，最后一个使用decltype关键字。你觉得哪种形式最好？为什么？
+解：
+      typedef string str10[10];
+      str10& f();
+      
+      auto f()->string(&)[10];
+
+      string str[10];
+      decltype(str) &f();
+
+      我认为尾置返回最好，易于理解且短。
+
+6.38  修改arrPtr函数，使其返回数组的引用。
+解：
+      decltype(odd) &arrPtr(int i)
+      {
+            return (i % 2) ? odd : even;
+      }
+
+6.39  说明在下面的每组声明中第二条语句是何含义。如果有非法的声明，请指出来。
+      (a) int calc(int, int);
+	      int calc(const int, const int);
+      (b) int get();
+	      double get();
+      (c) int *reset(int *);
+	      double *reset(double *);
+解：
+      (a) 顶层const不影响实参传入，非法；
+      (b) 返回类型不同并不是重载，非法；
+      (c) 合法
+
+6.40  下面的哪个声明是错误的？为什么？
+      (a) int ff(int a, int b = 0, int c = 0);
+      (b) char *init(int ht = 24, int wd, char bckgrnd);	
+解：
+      (a) 正确
+      (b) 错误；赋默认值的形参之后的形参必须有默认值
+
+6.41  下面的哪个调用是非法的？为什么？哪个调用虽然合法但显然与程序员的初衷不符？为什么？
+      char *init(int ht, int wd = 80, char bckgrnd = ' ');
+      (a) init();
+      (b) init(24,10);
+      (c) init(14,'*');
+解：
+      (a) 非法；ht无默认参数，需要至少传入一个默认参数
+      (b) 合法，24,10分别给ht,wd赋值
+      (c) 合法，但是不符；'*'会给wd赋值
+
+6.42  Ex6.42
+
+6.43  你会把下面的哪个声明和定义放在头文件中？哪个放在源文件中？为什么？
+      (a) inline bool eq(const BigInt&, const BigInt&) {...}
+      (b) void putValues(int *arr, int size);
+解：
+      (a) 是内联函数，将声明和定义放在头文件中；
+      (b) 是函数声明，放在头文件中
+
+6.44  Ex6.44
+
+6.45  回顾在前面的练习中你编写的那些函数，它们应该是内联函数吗？如果是，将它们改写成内联函数；如果不是，说明原因。
+解：
+      不是。虽然函数规模较小，但是没有频繁调用。
+
+6.46  能把isShorter函数定义成constexpr函数吗？如果能，将它改写成constxpre函数；如果不能，说明原因。
+解：
+      constexpr函数的返回类型和姓范类型都是字面值，isShorter函数的返回类型是bool。
+
+6.47  Ex6.47
+
+6.48  说明下面这个循环的含义，它对assert的使用合理吗？
+      string s;
+      while (cin >> s && s != sought) { } //空函数体
+      assert(cin);
+解：
+      循环含义是循环输入字符串s，并且s不等于sought。使用assert来判断是否继续输入，若有输入则会继续执行，否则中止。
+      不合理。将assert改为assert(s == sought)
+
+6.49  什么是候选函数？什么是可行函数？
+解：
+      本次调用对应的重载函数集，同名且声明可见；可以被这组实参调用的函数，形参与实参数量相等且类型相同或可转换
+
+6.50  已知有第217页对函数f的声明，对于下面的每一个调用列出可行函数。 其中哪个函数是最佳匹配？ 如果调用不合法，是因为没有可匹配的函数还是因为调用具有二义性？
+      (a) f(2.56, 42)
+      (b) f(42)
+      (c) f(42, 0)
+      (d) f(2.56, 3.14)
+解：
+      (a) int,int和double,double = 3.14可行；不合法，具有二义性
+      (b) int可行；合法
+      (c) int,int和double,double = 3.14可行；int,int最佳
+      (d) int,int和double,double = 3.14可行；double,double = 3.14最佳
+
+6.51  Ex6.51
+
+6.52  已知有如下声明：
+      void manip(int ,int);
+      double dobj;
+      请指出下列调用中每个类型转换的等级。
+      (a) manip('a', 'z');
+      (b) manip(55.4, dobj);
+解：  
+      (a) 3.类型提升； (b) 4.算术类型转换
+
+6.53  说明下列每组声明中的第二条语句会产生什么影响，并指出哪些不合法（如果有的话）。
+      (a) int calc(int&, int&); 
+	      int calc(const int&, const int&); 
+      (b) int calc(char*, char*);
+	      int calc(const char*, const char*);
+      (c) int calc(char*, char*);
+	      int calc(char* const, char* const);
+解：
+      (a) 无影响，是底层const；
+      (b) 无影响，是底层const；
+      (c) 重复定义。如前所述：顶层const不影响传入实参
+
+6.54  Ex6.54
+6.55  Ex6.55
+6.56  Ex6.56

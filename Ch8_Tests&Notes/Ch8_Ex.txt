@@ -1,0 +1,27 @@
+8.1   Ex8.1
+8.2   Ex8.2
+
+8.3   什么情况下，下面的while循环会终止？
+      while (cin >> i) /*  ...    */
+解：
+      遇到文件结束标识、读入无效的数据或者遇到了IO流错误。(badbit failbit等)
+
+8.4   Ex8.4
+8.5   Ex8.5
+8.6   Ex8.6
+8.7   Ex8.7
+8.8   Ex8.8
+8.9   Ex8.9
+8.10  Ex8.10
+8.11  Ex8.11
+
+8.12  我们为什么没有在PersonInfo中使用类内初始化？
+解：
+      PersonInfo类是一个聚合类。每个成员的phones不固定，不类内初始化，更适合缺省初始化后在运行过程中设置。
+
+8.13  Ex8.13
+
+8.14  我们为什么将entry和nums定义为const auto&？
+解：
+      首先entry和nums在程序中不会被改变，因此使用const。
+      同时people的类型是PersonInfo的vector，nums是string的vector，为了提高效率避免拷贝使用&。

@@ -1,0 +1,169 @@
+5.1   什么是空语句？什么时候会用到空语句？
+解：
+      只含义一个单独的分号的语句是空语句。如：;。
+      如果在程序的某个地方，语法上需要一条语句但是逻辑上不需要，此时应该使用空语句。
+
+5.2   什么是块？什么时候会用到块？
+解：
+      用花括号括起来的语句和声明的序列。
+      在需要多条语句但是程序语法只能容纳一条语句的时候。
+
+5.3   使用逗号运算符重写1.4.1节的while循环，使它不再需要块，观察改写之后的代码可读性提高了还是降低了。
+解：
+        while (val <= 10)
+            sum += val, ++val;
+        可读性降低了。
+
+5.4   说明下列例子的含义，如果存在问题，试着修改它。
+      (a) while (string::iterator iter != s.end()) { /* . . . */ }
+      (b) while (bool status = find(word)) { /* . . . */ }
+		    if (!status) { /* . . . */ }
+解：
+      (a) 每次循环都会重新定义，迭代器定义应该放在while循环外部。
+      (b) if循环无法使用status对象。应该将if循环放在while循环内部。
+
+5.5   Ex5.5
+5.6   Ex5.6
+
+5.7   改写下列代码段中的错误。
+      (a) if (ival1 != ival2) 
+		      ival1 = ival2
+          else 
+    	      ival1 = ival2 = 0;
+      (b) if (ival < minval) 
+		      minval = ival;
+    	      occurs = 1;
+      (c) if (int ival = get_value())
+    	      cout << "ival = " << ival << endl;
+          if (!ival)
+    	      cout << "ival = 0\n";
+      (d) if (ival = 0)
+    	      ival = get_value();
+解：  
+      (a) ival1 = ival2;未加分号
+      (b) occurs = 1;永远执行。应使用{}
+      (c) !ival在if内无意义(ival定义于第一个if内)，应改为else
+      (d) if (ival = 0)永远为false，应改为if (ival == 0)
+
+5.8   什么是“悬垂else”？C++语言是如何处理else子句的？
+解：
+      嵌套的if else语句中，if比else多的情况。
+      C++使else匹配最近的、没有配对的if。
+
+5.9   Ex5.9
+5.10  Ex5.10
+5.11  Ex5.11
+5.12  Ex5.12
+      
+5.13  下面显示的每个程序都含有一个常见的编码错误，指出错误在哪里，然后修改它们。
+解：
+      (a) unsigned aCnt = 0, eCnt = 0, iouCnt = 0;
+          char ch = next_text();
+          switch (ch) {
+              case 'a': aCnt++;
+              case 'e': eCnt++;
+              default: iouCnt++;
+          }
+      (b) unsigned index = some_value();
+          switch (index) {
+              case 1:
+                  int ix = get_value();
+                  ivec[ ix ] = index;
+                  break;
+              default:
+                  ix = ivec.size()-1;
+                  ivec[ ix ] = index;
+          }
+      (c) unsigned evenCnt = 0, oddCnt = 0;
+          int digit = get_num() % 10;
+          switch (digit) {
+              case 1, 3, 5, 7, 9:
+                  oddcnt++;
+                  break;
+              case 2, 4, 6, 8, 10:
+                  evencnt++;
+                  break;
+          }
+      (d) unsigned ival=512, jval=1024, kval=4096;
+          unsigned bufsize;
+          unsigned swt = get_bufCnt();
+          switch(swt) {
+              case ival:
+                  bufsize = ival * sizeof(int);
+                  break;
+              case jval:
+                  bufsize = jval * sizeof(int);
+                  break;
+              case kval:
+                  bufsize = kval * sizeof(int);
+                  break;
+          }
+解：
+      (a) 每个case分支下没有break语句，导致无条件执行case以下的语句；应在每个分支最后加break语句
+      (b) default分支下没有ix的定义；应将int ix定义在switch外部
+      (c) 同一行多项匹配时，使用逗号是语法错误；应将数字之间间隔的逗号改为冒号
+      (d) i/j/kval作为case标签，不是整型常量表达式；应在第一句定义时改为const unsigned...
+
+5.14  Ex5.14
+
+5.15  说明下列循环的含义并改正其中的错误。
+      (a) for (int ix = 0; ix != sz; ++ix) { /* ... */ }
+          if (ix != sz)
+    	      // . . .
+      (b) int ix;
+          for (ix != sz; ++ix) { /* ... */ }
+      (c) for (int ix = 0; ix != sz; ++ix, ++sz) { /*...*/ }
+解：
+      (a) ix在下面的if循环内未定义；应将int ix置于for循环外部
+      (b) for循环缺少初始化条件；即使是空语句也应该加上 ;
+      (c) 第三段应改为 ++ix
+
+5.16  while循环特别适用于那种条件不变、反复执行操作的情况，例如，当未达到文件末尾时不断读取下一个值。
+      for循环更像是在按步骤迭代，它的索引值在某个范围内一次变化。
+      根据每种循环的习惯各自编写一段程序，然后分别用另一种循环改写。如果只能使用一种循环，你倾向于哪种？为什么？
+解：
+      int i;
+      while ( cin >> i) { /*...*/ }
+
+      for (int i = 0; cin >> i;) { /*...*/ }
+
+      更倾向于while。for循环一般都可以用while代替。
+
+5.17  Ex5.17
+
+5.18  说明下列循环的含义并改正其中的错误。
+      (a) do
+              int v1, v2;
+              cout << "Please enter two numbers to sum:" ;
+              if (cin >> v1 >> v2)
+                  cout << "Sum is: " << v1 + v2 << endl;
+          while (cin);
+      (b) do {
+              // . . .
+          } while (int ival = get_response());
+      (c) do {
+              int ival = get_response();
+          } while (ival);
+解： 
+      (a) do-while循环把中间的块加上{}
+      (b) 应把ival定义放在do-while循环体前
+      (c) 应把ival定义放在do-while循环体外
+
+5.19  Ex5.19
+5.20  Ex5.20
+5.21  Ex5.21
+
+5.22  本节的最后一个例子跳回到begin，其实使用循环能更好的完成该任务，重写这段代码，注意不再使用goto语句。
+      // 向后跳过一个带初始化的变量定义是合法的
+      begin:
+          int sz = get_size();
+          if (sz <= 0) {
+              goto begin;
+          }
+解：
+      for (int sz = get_size(); sz <= 0; sz = get_size())
+          ;
+
+5.23  Ex5.23
+5.24  Ex5.24
+5.25  Ex5.25

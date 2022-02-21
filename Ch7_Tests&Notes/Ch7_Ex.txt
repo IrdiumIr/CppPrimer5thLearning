@@ -1,0 +1,253 @@
+7.1   Ex7.1
+7.2   Ex7.2
+7.3   Ex7.3
+7.4   Ex7.4
+7.5   Ex7.5
+7.6   Ex7.6
+7.7   Ex7.7
+
+7.8   为什么read函数将其Sales_data参数定义成普通的引用，而print函数将其参数定义成常量引用？
+解：
+      因为read函数会改变对象的内容，向item对象中写入；而print函数不会。
+
+7.9   Ex7.9
+
+7.10  在下面这条if语句中，条件部分的作用是什么？
+      if (read(read(cin, data1), data2)) //等价read(std::cin, data1);read(std::cin, data2);
+解：
+      read(cin, data1)等效于从输入流中读取data1。嵌套后等效于读取data1后继续读取data2。
+
+7.11  Ex7.11
+7.12  Ex7.12
+7.13  Ex7.13
+7.14  Ex7.14
+7.15  Ex7.15
+
+7.16  在类的定义中对于访问说明符出现的位置和次数有限定吗？
+      如果有，是什么？什么样的成员应该定义在public说明符之后？什么样的成员应该定义在private说明符之后？
+解：
+      没有限制。整个程序内可使用的成员定义为public；仅在类内部访问的成员定义为private。
+
+7.17  使用class和struct时有区别吗？如果有，是什么？
+解：
+      有区别。成员默认访问权限不同，分别为private和public。
+
+7.18  封装是何含义？它有什么用处？
+解：
+      将类内部分成员设置为private，无法直接进行修改而是通过接口来使用。
+      防止类内的成员被错误的修改。
+
+7.19  在你的Person类中，你将把哪些成员声明成public的？ 哪些声明成private的？ 解释你这样做的原因。
+解：
+      name和address作为数据成员为private。数据成员不应被轻易修改
+      构造函数为public，getName和getAddress两个成员函数为public，作为接口需要调用。
+
+7.20  友元在什么时候有用？请分别举出使用友元的利弊。
+解：
+      其他类/函数想要访问private成员时。
+      好处在于接口函数能直接访问private，问题在于牺牲了封装好的性能。
+
+7.21  Ex7.21
+7.22  Ex7.22
+7.23  Ex7.23
+7.24  Ex7.24
+
+7.25  Screen能安全地依赖于拷贝和赋值操作的默认版本吗？ 如果能，为什么？如果不能？为什么？
+解：
+      能。7.1.5中提及Screen这类只有内置类型和string的类，可以依赖于拷贝和赋值的版本。
+
+7.26  将Sales_data::avg_price定义成内联函数。
+解：
+      在定义Sales_data::avg_price函数的头文件中，在定义前加上inline关键字。
+      inline double Sales_data::avg_price() const
+      {
+            return units_sold ? revenue/units_sold : 0;
+      }
+
+7.27  Ex7.27
+
+7.28  如果move、set和display函数的返回类型不是Screen& 而是Screen，则在上一个练习中将会发生什么？
+解：
+      move返回的是*this的temp，set函数只能改变临时副本，不能改变myScreen的值。
+
+7.29  修改你的Screen类，令move、set和display函数返回Screen并检查程序的运行结果。
+解：
+      修改后，原本输出的#会变回X。
+
+7.30  通过this指针使用成员的做法虽然合法，但是有点多余。讨论显示使用指针访问成员的优缺点。
+解：
+      this指针使用成员时常显得多余，在return值时；但是在写程序时可以使用成员同名的参数名，方便理解。
+
+7.31  Ex7.31
+7.32  Ex7.32
+
+7.33  如果我们给Screen添加一个如下所示的size成员将发生什么情况？
+      pos Screen::size() const { return height * width; }
+解：
+      pos是Screen内定义的，返回类型需要明确作用域。
+      Screen::pos Screen::size() const
+      {
+            return height*width;
+      }
+
+7.34  如果我们把第256页Screen类的pos的typedef放在类的最后一行会发生什么情况？
+解：
+      dummy_fcn的参数pos属于是未定义标识符。类型名定义应前置
+
+7.35  解释下面代码的含义，说明其中的Type和initVal分别使用了哪个定义。如果代码存在错误，尝试修改它。
+      typedef string Type;
+      Type initVal(); //1
+      class Exercise {
+      public:
+            typedef double Type;
+            Type setVal(Type);//2
+            Type initVal(); //3
+      private:
+            int val;
+      };
+      Type Exercise::setVal(Type parm) { //4.5
+            val = parm + initVal();     
+            return val;
+      }
+解：
+      Type: 1.string, 2.double, 3.double, 4.string, 5.double
+      同时最后定义setVal应作修改：
+      Exercise::Type Exercise::setVal(Type parm) {
+            val = parm + initVal();
+            return val;
+      }
+
+7.36  下面的初始值是错误的，请找出问题所在并尝试修改它。
+      struct X {
+	      X (int i, int j): base(i), rem(base % j) {}
+	      int rem, base;
+      };
+解：
+      类X中实际上是按照int rem,base的顺序进行初始化。结果是会导致使用未初始化的base去初始化rem。
+      应改为int base, rem;
+
+7.37  使用本节提供的Sales_data类，确定初始化下面的变量时分别使用了哪个构造函数，罗列出每个对象所有的数据成员的值。
+      Sales_data first_item(cin); 
+      int main() {
+            Sales_data next;
+            Sales_data last("9-999-99999-9"); 
+      }
+解：
+      first_item(cin)使用了Sales_data(istream &is)，从输入流中读取成员
+      next使用默认构造函数，也就是Sales_data(string s = "")。bookNo = "", cnt = 0, revenue = 0.0
+      last("9-999-99999-9")使用传入一个string实参的构造函数。bookNo = "", cnt = 0, revenue = 0.0
+
+7.38  有些情况下我们希望提供cin作为接受istream&参数的构造函数的默认实参，请声明这样的构造函数。
+解：
+      Sales_data(istream &is(cin)) { read(is, *this); }……×
+      Sales_data(istream &is = cin) { read(is, *this); }……√
+
+7.39  如果接受string的构造函数和接受istream&的构造函数都使用默认实参，这种行为合法吗？
+解：
+      都使用默认实参的时候无法区分使用哪一个构造函数。
+
+7.40  Ex7.40
+7.41  Ex7.41
+7.42  Ex7.42
+7.43  Ex7.43
+
+7.44  下面这条声明合法吗？如果不，为什么？
+      vector<NoDefault> vec(10);//vec初始化有10个元素
+解：
+      P263：形如vector的值初始化需要类至少包含一个默认构造函数来进行。
+      如Ex7.43，NoDefault类没有默认构造函数，因此不合法。
+
+7.45  如果在上一个练习中定义的vector的元素类型是C，则声明合法吗？为什么？
+解：
+      合法。C类型有默认构造函数。
+
+7.46  下面哪些论断是不正确的？为什么？
+      (a) 一个类必须至少提供一个构造函数。
+      (b) 默认构造函数是参数列表为空的构造函数。
+      (c) 如果对于类来说不存在有意义的默认值，则类不应该提供默认构造函数。
+      (d) 如果类没有定义默认构造函数，则编译器将为其生成一个并把每个数据成员初始化成相应类型的默认值。
+解：
+      (a) 错误。不提供构造函数的情况下，编译器会默认提供一个隐式构造函数。
+      (b) 错误。为所有参数提供默认值的构造函数也是默认构造函数。
+      (c) 错误。
+      (d) 错误。只有当没有定义 任何 构造函数的情况下，编译器才会提供隐式构造函数。
+
+7.47  说明接受一个string参数的Sales_data构造函数是否应该是explicit的，并解释这样做的优缺点。
+解：
+      应该是。好处在于可以防止在使用构造函数时进行隐式转换。缺点是需要进行显式的使用构造函数。
+
+7.48  假定Sales_data的构造函数不是explicit的，则下述定义将执行什么样的操作？
+      string null_isbn("9-999-9999-9");
+      Sales_data item1(null_isbn);
+      Sales_data item2("9-999-99999-9");
+解：
+      定义了一个string，并将item1初始化；直接传入string将item2初始化.
+      与explicit无关。
+
+7.49  对于combine函数的三种不同声明，当我们调用i.combine(s)时分别发生什么情况？
+      其中i是一个Sales_data，而 s是一个string对象。
+      (a) Sales_data &combine(Sales_data); 
+      (b) Sales_data &combine(Sales_data&); 
+      (c) Sales_data &combine(const Sales_data&) const; 
+解：
+      (a) 可行。传入的string能够进行一步隐式转换，成功初始化。
+      (b) 不可行。传入string不能一步转换为Sales_data&。
+      (c) 不可行。常量成员函数无法修改类内成员的值。
+
+7.50  确定在你的Person类中是否有一些构造函数应该是explicit 的。
+解：
+      Ex7.22：
+            explicit Person(istream &is) { read(is, *this); }
+
+7.51  vector将其单参数的构造函数定义成explicit的，而string则不是，你觉得原因何在？
+解：
+      string构造函数接受参数指定了string的内容。不为explicit可以更加方便的进行转换以处理字符串。
+      vector是容器，除了有大小之外还有存放内容。传入int类的参数并转换为vector意义不明。
+
+7.52  使用2.6.1节的 Sales_data 类，解释下面的初始化过程。如果存在问题，尝试修改它。
+      Sales_data item = {"987-0590353403", 25, 15.99};
+解：
+      使用花括号直接显式初始化类成员，需要Sales_data类是聚合类。应将Sales_data类修改如下：
+      struct Sales_data {
+            string bookNo;
+            unsigned units_sold;
+            double revenue;
+      };
+
+7.53  Ex7.53
+
+7.54  Debug中以 set_ 开头的成员应该被声明成constexpr 吗？如果不，为什么？
+解：
+      不。constexpr构造函数一般函数体是空的，唯一可执行语句是return。
+
+7.55  7.5.5节的Data类是字面值常量类吗？请解释原因。
+解：
+      Data类是聚合类。unsigned, double是字面值类型，但是string不是。
+
+7.56  什么是类的静态成员？它有何优点？静态成员与普通成员有何区别？
+解：
+      static成员属于类而不和某个对象绑定。
+      静态成员不需要存储公共数据，更改后每个对象都能使用新值。静态成员可以作为默认参数。
+
+7.57  Ex7.57
+
+7.58  下面的静态数据成员的声明和定义有错误吗？请解释原因。
+      //example.h
+      class Example {
+      public:
+            static double rate = 6.5;
+            static const int vecSize = 20;
+            static vector<double> vec(vecSize);
+      };
+      //example.c
+      #include "example.h"
+      double Example::rate;
+      vector<double> Example::vec;
+解：
+      除了静态常量成员，其他static成员不能在类内初始化。除非是constexpr。
+      改为：
+            static constexpr double rate = 6.5;
+            static vector<double> vec;
+
+            constexpr double Example::rate;
+            vector <double> Example::vec(vecSize);
