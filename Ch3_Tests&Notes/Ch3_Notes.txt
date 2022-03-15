@@ -15,9 +15,10 @@ string对象上的操作
     string io：
     执行读操作>>：忽略掉开头的空白（包括空格、换行符和制表符），直到遇到下一处空白为止。
     getline：读取一整行，包括空白符。
-    s.size()返回的时string::size_type类型，记住是一个无符号类型的值，不要和int混用
+    s.size()返回的是string::size_type类型，记住是一个无符号类型的值，不要和int混用
+        STL配套标准库类型保证与设备无关，在std::string定义
     s1+s2使用时，保证至少一侧是string类型。string s1 = "hello" + "world" // 错误，两侧均为字符串字面值
-    字符串字面值和string是不同的类型。
+    字符串字面值和string是不同的类型，但是字符/字符串字面值可以转换为string。
 
 处理string对象中的字符：尽量使用c++版本的头文件，即cctype P82
     遍历字符串：使用范围for（range for）语句： for (auto c: str)，或者 for (auto &c: str)使用[引用]直接改变字符串中的字符。 （C++11）
@@ -29,6 +30,7 @@ vector
     容器：包含其他对象。
     类模板：本身不是类，但可以实例化instantiation出一个类。 [vector是一个模板， vector<int>是一个类型。]
     通过将类型放在类模板名称后面的尖括号中来指定类型，如vector<int> ivec。
+        旧式 vector<vector<int> > // 添加空格
 
 定义和初始化vector对象
     列表初始化： vector<string> v{"a", "an", "the"}; （C++11）
@@ -69,7 +71,7 @@ vector
     字符数组的特殊性：结尾处有一个空字符，如 char a[] = "hello"; 。
     用数组初始化 vector： int a[] = {1,2,3,4,5}; vector<int> v(begin(a), end(a));
 数组和指针
-    使用数组的名字时，编译器一般会把它转换成指向首元素的指针。
+    使用数组的名字时，编译器一般会把它转换成指向首元素的指针。(auto)
         decltype关键字转换时，不会把数组转化为指针
 指针也是迭代器：
     数组的begin end函数 int *beg = begin(ia)
@@ -78,7 +80,7 @@ vector
     指针访问数组：在表达式中使用数组名时，名字会自动转换成指向数组的第一个元素的指针。
     int *p = &ia[2] int j = p[1]…………p[1]等价于*(p+1) 指ia[3]
 C风格字符串
-    从C继承来的字符串。
+    从C继承来的字符串，存放在字符数组内。P109
     必须用空字符结束（\0）。
     对大多数应用来说，使用标准库 string比使用C风格字符串更安全、更高效。
     获取 string 中的 cstring ： const char *str = s.c_str(); 。
