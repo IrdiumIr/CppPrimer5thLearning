@@ -22,6 +22,7 @@ istream& fun(istream& is)
 //test code
 int main()
 {
-    fun(cin);
+    istream &is = fun(cin);
+    cout << is.rdstate() << endl;
     return 0;
 }
